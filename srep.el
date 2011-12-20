@@ -74,13 +74,15 @@
 ;;
 ;; 2011-12-20  Morimoto, Ken  <ken.m.pp1@gmail.com>
 ;;
-;;         * リリース 0.1.1
+;;   * リリース 0.1.1
 ;;
-;;         * srep-repeat-functions の構文エラーを修正。
+;;   * srep-repeat-functions の構文エラーを修正。
+;;
+;;   * YYYY-MM-DD 形式のリピート関数がオーバーフローで正常動作しないバグを修正。
 ;;
 ;; 2011-12-20  Morimoto, Ken  <ken.m.pp1@gmail.com>
 ;;
-;;         * リリース 0.1.0
+;;   * リリース 0.1.0
 ;;
 
 ;;; Code:
@@ -462,12 +464,13 @@
 	     (month (string-to-number (match-string 5 str)))
 	     (day (string-to-number (match-string 6 str)))
 	     (en-time (encode-time 0 0 0 day month year 0)))
-	(list (+ (* (nth 0 en-time) 65536) (nth 1 en-time)) match pos str)))))
+	(list (+ (* (float (nth 0 en-time)) 65536.0) (float (nth 1 en-time))) match pos str)))))
 
 ;; リピート関数 (リピータ): 日付 YYYY-MM-DD
 (defun srep-rep:yyyy-mm-dd (n sample)
-  (let* ((sec (truncate n))
-	 (de-time (decode-time (list (/ sec 65536) (% sec 65536)))))
+  (let* ((upper (truncate (/ n 65536.0)))
+	 (lower (truncate (- n (* upper 65536.0))))
+	 (de-time (decode-time (list upper lower))))
     (format "%04d-%02d-%02d" (nth 5 de-time) (nth 4 de-time) (nth 3 de-time))))
 
 ;;-----------------------------------------------------------------------------
