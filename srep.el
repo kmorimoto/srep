@@ -2,7 +2,7 @@
 
 ;; Copyright (C) 2011 Morimoto, Ken <ken.m.pp1@gmail.com>
 
-(defconst srep-version-number "0.1.0 (2011-12-20)"
+(defconst srep-version-number "0.1.1 (2011-12-20)"
   "srep.el version number.")
 
 ;; This program is free software; you can redistribute it and/or
@@ -74,6 +74,12 @@
 ;;
 ;; 2011-12-20  Morimoto, Ken  <ken.m.pp1@gmail.com>
 ;;
+;;         * リリース 0.1.1
+;;
+;;         * srep-repeat-functions の構文エラーを修正。
+;;
+;; 2011-12-20  Morimoto, Ken  <ken.m.pp1@gmail.com>
+;;
 ;;         * リリース 0.1.0
 ;;
 
@@ -89,7 +95,6 @@
 ;; アナライザとリピータのペアをリストとして保持。
 ;; 先頭に近いアナライザほど優先的に使用される。
 (defvar srep-repeat-functions
-  "Functions for analyzing and repeating string."
   '((srep-ana:yyyy-mm-dd srep-rep:yyyy-mm-dd)
     (srep-ana:dayofweek-ja srep-rep:dayofweek-ja)
     (srep-ana:dayofweek-ja-short srep-rep:dayofweek-ja-short)
@@ -99,7 +104,8 @@
     (srep-ana:month srep-rep:month)
     (srep-ana:month-short srep-rep:month-short)
     (srep-ana:hexadecimal srep-rep:hexadecimal)
-    (srep-ana:integer srep-rep:integer)))
+    (srep-ana:integer srep-rep:integer))
+  "Functions for analyzing and repeating string.")
 
 ;; srep 本体
 (defun srep (beg end prefix)
